@@ -4,21 +4,28 @@ import java.util.List;
 
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.ArbreBinaireBin;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.Stagiaire;
+import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class PaneMajStagiaire extends VBox{
 	
+	private User user;
 	private Stagiaire cible;
 	
 	private TextField tfNom;
@@ -30,7 +37,6 @@ public class PaneMajStagiaire extends VBox{
 	private TextField tfAnnee;
 	
 	private Label lWarningPrenom;
-	private Label lWarningNNom;
 	private Label lWarningCP;
 	private Label lWarningParcours;
 	private Label lWarningAnnee;
@@ -39,19 +45,25 @@ public class PaneMajStagiaire extends VBox{
 	private Button bRetour;
 	
 	
-	public PaneMajStagiaire(Stagiaire stagiaire) throws Exception {
+	public PaneMajStagiaire(User user, Stagiaire stagiaire) throws Exception {
 		super();
 		this.cible = stagiaire;
+		this.user = user;
 		
-		getChildren().add(new Label("MISE-A-JOUR STAGIAIRE"));
+		setAlignment(Pos.CENTER);
+		
+		getChildren().add(mainIcon());
 		getChildren().add(setContenu());
 		
 		HBox buttons = new HBox(15);
 		bActualiser = setBtnActualiser();
 		bRetour = setBtnRetour();
+		
 		buttons.getChildren().addAll(bActualiser,bRetour);
+		buttons.setAlignment(Pos.CENTER);
 		
 		getChildren().add(buttons);
+		setPadding(new Insets(20, 0, 20, 0));
 	}
 
 	public Button setBtnActualiser() {
@@ -129,14 +141,24 @@ public class PaneMajStagiaire extends VBox{
 
 		if (switchCompliance) {
 			Stagiaire miseAjour = new Stagiaire(nom, prenom, departement, parcours, numPromo, contratPro, annee);
-			System.out.println(cible.toString());
-			System.out.println(miseAjour.toString());
 			ArbreBinaireBin.rechercheRemplace(this.cible,miseAjour);
+			versRechercheStagiaire();
 					
 		}else {
-			System.err.println("Pas d'ajout car pas de respect de contraintes");
+			setWarnings();
 		}
 
+	}
+	
+	public ImageView mainIcon() {
+		ImageView iv = new ImageView();
+		Image icon = new Image("file:src/icons/account-sync.png");
+
+		iv.setImage(icon);
+		iv.setFitWidth(50);
+		iv.setFitHeight(50);
+
+		return iv;
 	}
 
 	public Button setBtnRetour() {
@@ -147,9 +169,7 @@ public class PaneMajStagiaire extends VBox{
         	@Override
         	public void handle(ActionEvent event) {
         		try {
-        			Scene sceneRecherche = new Scene(new PaneRechercheStagiaire());
-					Stage stage = (Stage) PaneMajStagiaire.this.getScene().getWindow();
-					stage.setScene(sceneRecherche);
+        			versRechercheStagiaire();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -160,9 +180,34 @@ public class PaneMajStagiaire extends VBox{
 		return btn;
 	
 	}
+	
+	public void versRechercheStagiaire() throws Exception {
+		Scene sceneRecherche = new Scene(new PaneRechercheStagiaire(user));
+		Stage stage = (Stage) PaneMajStagiaire.this.getScene().getWindow();
+		stage.setScene(sceneRecherche);
+	}
+	
+	public void eraseWarnings() {
+		lWarningPrenom = new Label("");
+		lWarningCP = new Label("");
+		lWarningParcours = new Label("");
+		lWarningAnnee = new Label("");
+	}
+
+	public void setWarnings() {
+		lWarningPrenom.setText("!");
+		lWarningPrenom.setTextFill(Color.RED);
+		lWarningCP.setText("!");
+		lWarningCP.setTextFill(Color.RED);
+		lWarningParcours.setText("!");
+		lWarningParcours.setTextFill(Color.RED);
+		lWarningAnnee.setText("!");
+		lWarningAnnee.setTextFill(Color.RED);
+	}
 
 	public GridPane setContenu() {
 		GridPane gp = new GridPane();
+		eraseWarnings();
 
 		Label lNom = new Label("nom");
 		tfNom = CompoStag.setStringTf("");
@@ -173,12 +218,12 @@ public class PaneMajStagiaire extends VBox{
 		Label lPrenom = new Label("prenom");
 		tfPrenom = CompoStag.setStringTf("");
 		tfPrenom.setText(this.cible.getPrenom());
-		gp.addRow(1, lPrenom, tfPrenom);
+		gp.addRow(1, lPrenom, tfPrenom,lWarningPrenom);
 
 		Label lDepartement = new Label("departement");
 		tfDepartement = CompoStag.setCodePostalTf("ex : 44");
 		tfDepartement.setText(this.cible.getDepartement());
-		gp.addRow(2, lDepartement, tfDepartement);
+		gp.addRow(2, lDepartement, tfDepartement,lWarningCP);
 
 		HBox hboxParcours = new HBox();
 		Label lParcours = new Label("parcours");
@@ -193,14 +238,18 @@ public class PaneMajStagiaire extends VBox{
 		ckbContratPro = new CheckBox();
 		ckbContratPro.setSelected(this.cible.getContratPro()=='O'?true:false);
 
-		hboxParcours.getChildren().addAll(lParcours, cbParcours, lnumPromo, tfNumPromo, lContratPro, ckbContratPro);
+		hboxParcours.getChildren().addAll(lParcours, cbParcours, lnumPromo, tfNumPromo, lContratPro, ckbContratPro,lWarningParcours);
+		hboxParcours.setPadding(new Insets(10, 0, 10, 0));
+		hboxParcours.setAlignment(Pos.CENTER);
+		
 		gp.add(hboxParcours, 0, 3, 2, 1);
 
 		Label lAnnee = new Label("Annee Graduation");
 		tfAnnee = CompoStag.setNumPromo("");
 		tfAnnee.setText(this.cible.getAnnee()+"");
 
-		gp.addRow(4, lAnnee, tfAnnee);
+		gp.addRow(4, lAnnee, tfAnnee,lWarningAnnee);
+		gp.setPadding(new Insets(20, 20, 20, 20));
 
 		return gp;
 	}

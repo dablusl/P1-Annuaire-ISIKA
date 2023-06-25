@@ -3,6 +3,7 @@ package fr.isika.cad25.projets.P1_Annuaire_ISIKA;
 import java.io.File;
 import java.io.IOException;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.AnnuaireIO;
+import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.User;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.PaneRechercheStagiaire;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -18,6 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 public class ChoisirBDD extends Application{
+	
+	public static User user;
+	
 	//Dans une méthode main, on lance le thread JavaFX Application
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -55,7 +59,7 @@ public class ChoisirBDD extends Application{
 		btn1.setStyle("-fx-font: normal bold 15px 'blue' ; -fx-cursor: hand");
 		btn2.setStyle("-fx-font: normal bold 15px 'blue' ; -fx-cursor: hand");
 		btn3.setStyle("-fx-font: normal bold 15px 'blue' ; -fx-cursor: hand");
-		maStack.setStyle("-fx-background-color:cyan");
+
 		btn3.setVisible(true);
 		btn3.setTextFill(Color.DARKGREEN);
 		
@@ -84,7 +88,7 @@ public class ChoisirBDD extends Application{
 			private void openPaneRechercheStagiaire(ActionEvent arg0) {
 				try
 				{
-					Scene scene2 = new Scene(new PaneRechercheStagiaire());
+					Scene scene2 = new Scene(new PaneRechercheStagiaire(user));
 					Stage secondStage= (Stage)((Node)(arg0.getSource())).getScene().getWindow();
 					secondStage.setScene(scene2);
 				}
@@ -122,7 +126,7 @@ public class ChoisirBDD extends Application{
 			private void openPaneRechercheStagiaire(ActionEvent arg0) {
 				try
 				{
-					Scene scene2 = new Scene(new PaneRechercheStagiaire());
+					Scene scene2 = new Scene(new PaneRechercheStagiaire(user));
 					Stage secondStage= (Stage)((Node)(arg0.getSource())).getScene().getWindow();
 					secondStage.setScene(scene2);
 				}

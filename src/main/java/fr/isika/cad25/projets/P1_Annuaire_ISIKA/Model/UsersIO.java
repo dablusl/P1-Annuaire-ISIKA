@@ -53,7 +53,6 @@ public class UsersIO {
 			raf.seek(0);
 			while (raf.getFilePointer() < raf.length()) {
 				User user = UsersIO.lireBin(raf);
-				System.out.println(user.getEmail() + " et " + user.getPassword());
 				if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
 					raf.close();
 					return true; // L'authentification est réussie

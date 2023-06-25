@@ -3,6 +3,7 @@ package fr.isika.cad25.projets.P1_Annuaire_ISIKA;
 import java.io.File;
 import java.io.IOException;
 
+import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.User;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.UsersIO;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.PaneRechercheStagiaire;
 import javafx.geometry.Pos;
@@ -50,30 +51,30 @@ public class Login {
 		bValider.setOnAction(e -> {
 			String email = txtEmail.getText();
 			String password = txtMdp.getText();
-			System.out.println(email + " " + password);
+			
+			//changer methode pour un qui renvoie le user
 			boolean authentifie = UsersIO.verifierAuthentification(email, password);
+			User user = new User("zakaria","abdel",email,password);
+			
+			
 			if (authentifie) {
-				// Authentification réussie, faire quelque chose comme ouvrir une nouvelle
-				// fenêtre
-				System.out.println("Authentification réussie !");
 				
 				String filePath = "src/data/stagiaires.bin";
 				File file = new File(filePath);
 				
 				try {
-					// Create the file
 	
 				
 					if (!file.exists())
 					{	
 						Stage currentStage = (Stage)Login.stage.getScene().getWindow();
+						ChoisirBDD.user = user;
 						ChoisirBDD choisirBDD = new ChoisirBDD();
 						choisirBDD.start(currentStage);
 					}
 					else
 					{
-						System.out.println("jarrive");
-						Scene scene2 = new Scene(new PaneRechercheStagiaire());
+						Scene scene2 = new Scene(new PaneRechercheStagiaire(user));
 						Stage secondStage= (Stage)Login.stage.getScene().getWindow();
 						secondStage.setScene(scene2);;
 						secondStage.show();
@@ -88,9 +89,7 @@ public class Login {
 				
 				
 			} else {
-				// Authentification échouée, afficher un message d'erreur
-				System.out.println("Authentification échouée. Veuillez vérifier vos informations.");
-				
+				// Authentification échouée, afficher un message d'erreur				
 			}
 			
 		});
