@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.*;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.CompoStag;
+import fr.isika.cad25.projets.P1_Annuaire_ISIKA.print.ImprimerStagiaires;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

@@ -169,6 +169,58 @@ public class Stagiaire {
 		Stagiaire stagiaire = new Stagiaire("","","","",(short)-1,'x',(short)-1);
 		return stagiaire;
 	}
+	
+	public String pdfFormatString() {
+		String s ="";
+		
+		String fNom ="| " + this.nom;
+		for(int i=fNom.length();i<2+TAILLE_NOM+1;i++)
+			fNom += " ";
+		
+		String fPrenom ="| " + this.prenom;
+		for(int i=fPrenom.length();i<2+TAILLE_NOM+1;i++)
+			fPrenom += " ";
+		
+		String fDepartement ="| " + this.departement;
+		for(int i=fDepartement.length();i<2+TAILLE_CP+1;i++)
+			fDepartement += " ";
+		
+		String fParcours="| " + this.parcours;
+		for(int i=fParcours.length();i<11;i++)
+			fParcours += " ";
+		
+		String fNumPromo="| " + this.numPromo;
+		for(int i=fNumPromo.length();i<11;i++)
+			fNumPromo += " ";
+		
+		String fContratPro="| " + this.contratPro;
+		for(int i=fContratPro.length();i<9;i++)
+			fContratPro += " ";
+		
+		String fAnnee="| " + this.annee;
+		for(int i=fAnnee.length();i<8;i++)
+			fAnnee += " ";
+		
+		s = fNom + fPrenom + fDepartement + fParcours + fNumPromo + fContratPro + fAnnee;
+		
+		return s;
+	}
+	
+	public static String enteteTableauStagiaire() {
+		String s = "";
+		
+		String enteteNom ="| NOM                       ";
+		String entetePrenom ="| PRENOM                    ";
+		String enteteDepartement ="| CP ";
+		String enteteParcours="| PARCOURS ";
+		String enteteNumPromo="| N° PROMO ";
+		String enteteContratPro="| C-PRO? ";
+		String enteteAnnee="| ANNEE |";
+		
+		s= enteteNom + entetePrenom + enteteDepartement + enteteParcours + enteteNumPromo + enteteContratPro + enteteAnnee;
+		
+		return s;
+	}
 
 }
 
