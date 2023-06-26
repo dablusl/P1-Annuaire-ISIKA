@@ -1,7 +1,7 @@
 package fr.isika.cad25.projets.P1_Annuaire_ISIKA.Programme;
 
 
-import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Login;
+import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.Login;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.PaneAjoutStagiaire;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.PaneRechercheStagiaire;
 import javafx.application.Application;

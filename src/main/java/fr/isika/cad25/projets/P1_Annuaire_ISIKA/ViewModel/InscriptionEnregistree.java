@@ -1,4 +1,4 @@
-package fr.isika.cad25.projets.P1_Annuaire_ISIKA;
+package fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

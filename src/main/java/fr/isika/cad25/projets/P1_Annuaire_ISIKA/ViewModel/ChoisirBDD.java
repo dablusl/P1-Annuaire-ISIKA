@@ -1,10 +1,9 @@
-package fr.isika.cad25.projets.P1_Annuaire_ISIKA;
+package fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel;
 
 import java.io.File;
 import java.io.IOException;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.AnnuaireIO;
 import fr.isika.cad25.projets.P1_Annuaire_ISIKA.Model.User;
-import fr.isika.cad25.projets.P1_Annuaire_ISIKA.ViewModel.PaneRechercheStagiaire;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
